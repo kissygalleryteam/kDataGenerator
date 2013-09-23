@@ -1,0 +1,14 @@
+{
+    "name": "kDataGenerator",
+    "version": "1.0",
+    "desc": "一个假数据生成模块",
+    "cover": "",
+    "tag":"数据,生成",
+    "author": {
+        "name": "mingzheng",
+        "email": "polazeyu@qq.com",
+        "page": "https://github.com/mingzheng"
+    },
+    "type": "kissy-gallery",
+    "type-url": "http://gallery.kissyui.com/guide"
+}

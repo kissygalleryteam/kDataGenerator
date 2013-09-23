@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>kDataGenerator的demo</title>
+    <script src="http://g.tbcdn.cn/kissy/k/1.3.0/kissy-min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="http://g.tbcdn.cn/kissy/k/1.3.0/css/dpl/base-min.css">
+    <style type="text/css">
+        body{
+            padding-left: 40px;
+        }
+    </style>
+</head>
+<body>
+<h2>kDataGenerator的demo</h2>
+<div class="rule">
+    <h3>生成数据的规则</h3>
+    <ul>
+        <li>使用的是一种类json的格式，不过有特别之处，比如支持regexp类型，有量词规则，不支持数组（因为不需要）</li>
+        <li>暂时支持的数据项有三种，normal(普通json数据项，也可以说是值类型),regexp(基本的正则，产生符合正则的数据),object(符合规则的对象，会递归解析)</li>
+        <li>量词规则：1,【? 代表随机有或者没有】 2,【x 个数精确为 x】 3,【x-y 大于 x 小于 y的一个随机数】 其中添加了后两种规则都会返回数组（所以不需要 Array 类型）</li>
+        <li>暂时支持的正则：'[', ']', '{', '}', '^', '-', '|', '.','?','\w', '\d', '\c'</li>
+        <li>其他：1.量词位于数据项后面，比如{data:{}(1-4)},1-4 为量词 2.regexp 类型必须有量词（生成单个数据，使用 regexp 无意义）</li>
+    </ul>
+
+    <strong>
+        在下面输入框输入符合规则的字符串，点击生成则生成数据，数据结果同时会 log 在控制台。 建议先在例子的基础上改改试试 （缺少规则错误提醒，待实现）
+    </strong>
+</div>
+<textarea name="datastr" id="datastr" cols="100" rows="10">
+    {"data":{"normalText":1(2-5)}(1-4),"regExp":/\d{6,10}@(qq|taobao|wanyi)\.com/(2-6),"num":1(5)}
+</textarea>
+<input id="parse" type="submit" value="生成">
+<p id="result"></p>
+<script>
+    var S = KISSY;
+    if (S.Config.debug) {
+        var srcPath = "../../../";
+        S.config({
+            packages:[
+                {
+                    name:"gallery",
+                    path:srcPath,
+                    charset:"utf-8",
+                    ignorePackageNameInUri:true
+                }
+            ]
+        });
+    }
+
+    S.use('gallery/kDataGenerator/1.0/index', function (S, KDataGenerator) {
+        var JSON= S.JSON;
+
+        S.one('#parse').on('click',function(){
+            var dataStr= S.one('#datastr').val();
+            var result=KDataGenerator.getData(dataStr);
+
+
+            console.log(result)
+
+            S.one('#result').text(JSON.stringify(result));
+        })
+
+
+        /* var dataStr = '{"data":{"normalText":1(2-5)}(1-4),"regExp":/\\d{6,10}@(qq|taobao|wanyi)\\.com/(2-6),"num":1(5)}';
+
+       console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(JSON.stringify(KDataGenerator.getData(dataStr)));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));
+        console.log(KDataGenerator.getData(dataStr));*/
+
+
+    })
+</script>
+</body>
+</html>
